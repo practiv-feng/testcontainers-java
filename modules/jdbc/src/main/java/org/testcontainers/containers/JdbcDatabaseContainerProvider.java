@@ -58,8 +58,8 @@ public abstract class JdbcDatabaseContainerProvider {
     protected JdbcDatabaseContainer newInstanceFromConnectionUrl(ConnectionUrl connectionUrl, final String userParamName, final String pwdParamName) {
         Objects.requireNonNull(connectionUrl, "Connection URL cannot be null");
 
-        final String databaseName = connectionUrl.getDatabaseName().orElse("test");
-        final String user = connectionUrl.getQueryParameters().getOrDefault(userParamName, "test");
+        final String databaseName = connectionUrl.getDatabaseName().orElse("cluster");
+        final String user = connectionUrl.getQueryParameters().getOrDefault(userParamName, "root");
         final String password = connectionUrl.getQueryParameters().getOrDefault(pwdParamName, "test");
 
         final JdbcDatabaseContainer<?> instance;
@@ -74,5 +74,28 @@ public abstract class JdbcDatabaseContainerProvider {
             .withDatabaseName(databaseName)
             .withUsername(user)
             .withPassword(password);
+    }
+
+    protected JdbcDatabaseContainer newInstanceFromConnectionUrl(ConnectionUrl connectionUrl, final String userParamName, final String pwdParamName, final String licnsParamName) {
+        Objects.requireNonNull(connectionUrl, "Connection URL cannot be null");
+
+        final String databaseName = connectionUrl.getDatabaseName().orElse("cluster");
+        final String user = connectionUrl.getQueryParameters().getOrDefault(userParamName, "root");
+        final String password = connectionUrl.getQueryParameters().getOrDefault(pwdParamName, "test");
+        final String licenseKey = connectionUrl.getQueryParameters().getOrDefault(licnsParamName, "");
+
+        final JdbcDatabaseContainer<?> instance;
+        if (connectionUrl.getImageTag().isPresent()) {
+            instance = newInstance(connectionUrl.getImageTag().get());
+        } else {
+            instance = newInstance();
+        }
+
+        return instance
+            .withReuse(connectionUrl.isReusable())
+            .withDatabaseName(databaseName)
+            .withUsername(user)
+            .withPassword(password)
+            .withLicenseKey(licenseKey);
     }
 }

@@ -45,6 +45,8 @@ _book/
 node_modules/
 
 .gradle/
+gradlew
+gradlew.bat
 build/
 out/
 *.class

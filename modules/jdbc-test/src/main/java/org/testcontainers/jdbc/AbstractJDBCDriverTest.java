@@ -108,7 +108,7 @@ public class AbstractJDBCDriverTest {
             if (resultUser.endsWith("@%")) {
                 resultUser = resultUser.substring(0, resultUser.length() - 2);
             }
-            assertEquals("User from query param is created.", "someuser", resultUser);
+            assertEquals("User from query param is created.", "root", resultUser);
             return true;
         });
 
@@ -124,7 +124,7 @@ public class AbstractJDBCDriverTest {
         result = new QueryRunner(dataSource).query(databaseQuery, rs -> {
             rs.next();
             String resultDB = rs.getString(1);
-            assertEquals("Database name from URL String is used.", "databasename", resultDB);
+            assertEquals("Database name from URL String is used.", "cluster", resultDB);
             return true;
         });
 
