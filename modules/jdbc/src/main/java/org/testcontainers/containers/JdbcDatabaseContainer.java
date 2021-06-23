@@ -98,6 +98,10 @@ public abstract class JdbcDatabaseContainer<SELF extends JdbcDatabaseContainer<S
         throw new UnsupportedOperationException();
     }
 
+    public SELF withLicenseKey(String licenseKey) {
+        throw new UnsupportedOperationException();
+    }
+
     public SELF withUrlParam(String paramName, String paramValue) {
         urlParameters.put(paramName, paramValue);
         return self();
